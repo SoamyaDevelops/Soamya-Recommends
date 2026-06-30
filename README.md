@@ -6,7 +6,7 @@ Soamya Recommends is an honest, premium-designed Apple product advisor site. It 
 - **GSAP Animations:** Butter-smooth scroll animations on the hero section.
 - **Glassmorphic UI:** Premium frosted glass aesthetics.
 - **Filter Engine:** A rich product database you can filter by category, budget, and priority.
-- **AI Advisor:** A real-time AI assistant powered by Groq and Meta's Llama-3.3-70b model.
+- **AI Advisor:** A real-time AI assistant which helps in your product selection.
 
 ## Setup Instructions
 
