@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms & Conditions — Soamya Recommends</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/chat.css"/>
+  <style>
+    .terms-hero { padding: 140px clamp(1.5rem,5vw,6rem) 5rem; border-bottom: 1px solid var(--border); }
+    .terms-hero h1 { font-size: var(--disp-lg); font-weight: 900; letter-spacing: -.05em; line-height: .92; margin: .8rem 0 1rem; }
+    .terms-meta { font-size: var(--xs); color: var(--txt-2); letter-spacing: .06em; }
+    .terms-layout {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 5rem;
+      align-items: start;
+      padding-block: 5rem 8rem;
+    }
+    .toc {
+      position: sticky;
+      top: 90px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.4rem;
+    }
+    .toc-title { font-size: var(--label-size); letter-spacing: var(--label-track); text-transform: uppercase; color: var(--txt-2); font-weight: 600; margin-bottom: 1rem; display: block; }
+    .toc nav { display: flex; flex-direction: column; gap: .15rem; }
+    .toc a { font-size: .75rem; color: var(--txt-2); padding: 4px 7px; border-radius: 6px; transition: background .2s, color .2s; font-weight: 500; }
+    .toc a:hover { background: var(--bg-3); color: var(--txt-1); }
+
+    .terms-body { display: flex; flex-direction: column; }
+    .t-alert {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: rgba(255,179,0,.06); border: 1px solid rgba(255,179,0,.2);
+      border-radius: var(--r); padding: 1.2rem 1.5rem; margin-bottom: 3rem;
+      font-size: .85rem; line-height: 1.7; color: var(--txt-1);
+    }
+    .t-alert-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .t-alert strong { color: #FFB74D; }
+
+    .t-section { padding-block: 2.5rem; border-bottom: 1px solid var(--border); }
+    .t-section:last-of-type { border-bottom: none; }
+    .t-section h2 { font-size: 1.15rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: 1.2rem; scroll-margin-top: 100px; }
+    .t-section p { font-size: .87rem; line-height: 1.82; color: var(--txt-1); margin-bottom: 1rem; font-weight: 300; }
+    .t-section p:last-child { margin-bottom: 0; }
+    .t-section strong { color: var(--txt-0); font-weight: 600; }
+    .t-section a { color: var(--accent); border-bottom: 1px solid rgba(232,213,163,.25); transition: border-color .2s; }
+    .t-section a:hover { border-color: var(--accent); }
+    .t-section ul { list-style: none; margin: .8rem 0; display: flex; flex-direction: column; gap: .45rem; }
+    .t-section li { font-size: .84rem; color: var(--txt-1); padding-left: 1.2rem; position: relative; line-height: 1.65; font-weight: 300; }
+    .t-section li::before { content: '—'; position: absolute; left: 0; color: var(--txt-2); }
+
+    .t-summary {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: var(--bg-card); border: 1px solid var(--border-h);
+      border-radius: var(--r); padding: 1.5rem; margin-top: 3rem;
+      font-size: .85rem; line-height: 1.75; color: var(--txt-1); font-weight: 300;
+    }
+    .t-summary strong { color: var(--txt-0); font-weight: 600; }
+    .t-actions { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; }
+
+    @media (max-width: 900px) {
+      .terms-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .toc { display: none; }
+    }
+  </style>
+</head>
+<body class="is-loading">
+
+<div id="loader">
+  <div class="loader-inner">
+    <p class="loader-label">[ Soamya Recommends ]</p>
+    <div class="loader-bar-track"><div class="loader-bar-fill" id="loaderBar"></div></div>
+    <p class="loader-pct" id="loaderPct">0</p>
+  </div>
+</div>
+<div id="cursorDot"></div>
+<div id="cursorRing"></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Soamya Recommends</a>
+  <div class="nav-center">
+    <a href="index.html">Home</a>
+    <a href="recommender.html">Recommender</a>
+    <a href="terms.html" style="color:var(--txt-0)">Terms</a>
+  </div>
+  <div class="nav-right">
+    <a href="recommender.html" class="nav-cta">Find Mine ↗</a>
+  </div>
+  <button id="menuBtn" class="menu-btn" aria-label="Menu"><span></span><span></span></button>
+</nav>
+<div id="mobileNav" class="mobile-nav">
+  <div class="mobile-nav-links">
+    <a href="index.html">Home</a>
+    <a href="recommender.html">Recommender</a>
+  </div>
+</div>
+
+<section class="terms-hero">
+  <div class="container">
+    <p class="section-label">[ Legal ]</p>
+    <h1>Terms &amp;<br/>Conditions.</h1>
+    <p class="terms-meta">Last updated: June 2025 &nbsp;·&nbsp; Effective immediately</p>
+  </div>
+</section>
+
+<main>
+  <div class="container terms-layout">
+
+    <aside class="toc">
+      <span class="toc-title">Contents</span>
+      <nav>
+        <a href="#s1">1. Independence</a>
+        <a href="#s2">2. No Liability</a>
+        <a href="#s3">3. Accuracy</a>
+        <a href="#s4">4. AI Content</a>
+        <a href="#s5">5. Images & Trademarks</a>
+        <a href="#s6">6. No Apple Affiliation</a>
+        <a href="#s7">7. Pricing</a>
+        <a href="#s8">8. Discounts</a>
+        <a href="#s9">9. External Links</a>
+        <a href="#s10">10. Privacy</a>
+        <a href="#s11">11. Changes</a>
+        <a href="#s12">12. Contact</a>
+      </nav>
+    </aside>
+
+    <div class="terms-body">
+      <div class="t-alert">
+        <span class="t-alert-icon">⚠️</span>
+        <div><strong>Important:</strong> By using Soamya Recommends, you agree to these terms. This website is an independent advisory platform and is not affiliated with, sponsored by, or endorsed by Apple Inc. in any way.</div>
+      </div>
+
+      <section class="t-section" id="s1">
+        <h2>1. Independence of This Website</h2>
+        <p>Soamya Recommends is an independently operated advisory website created and maintained by Soamya ("the Creator") as a personal project to provide guidance on Apple products.</p>
+        <p>This website is <strong>not affiliated with, sponsored by, endorsed by, or in any way officially connected to Apple Inc.</strong>, its subsidiaries, or affiliates. The names "Apple", "iPhone", "Mac", "iPad", "Apple Watch", "AirPods", "HomePod", "Apple TV", and "Vision Pro" are registered trademarks of Apple Inc.</p>
+        <p>All recommendations and opinions represent the personal views of the Creator and are intended solely for informational and educational purposes.</p>
+      </section>
+
+      <section class="t-section" id="s2">
+        <h2>2. No Liability — Soamya Is Not Accountable</h2>
+        <p><strong>Soamya and Soamya Recommends expressly disclaim all liability</strong> for any decisions, purchases, financial losses, or consequences arising from your use of this website or reliance on any recommendations provided here.</p>
+        <p>The Creator shall not be held liable for:</p>
+        <ul>
+          <li>Purchasing decisions made based on recommendations from this website</li>
+          <li>Financial loss resulting from any Apple product purchase influenced by this site</li>
+          <li>Product dissatisfaction, defects, or performance not meeting expectations</li>
+          <li>Pricing inaccuracies between content on this site and what Apple currently charges</li>
+          <li>Discount eligibility or availability at the time of your purchase</li>
+          <li>Changes in Apple product lineups, specifications, or pricing after content was published</li>
+          <li>AI-generated recommendations that may be incorrect, outdated, or unsuitable for your needs</li>
+        </ul>
+        <p><strong>You use this website entirely at your own risk.</strong> Always verify all specifications, pricing, and discount eligibility directly on <a href="https://www.apple.com" target="_blank" rel="noopener">Apple's official website</a> before making any purchase.</p>
+      </section>
+
+      <section class="t-section" id="s3">
+        <h2>3. Accuracy of Information</h2>
+        <p>We make reasonable efforts to ensure that all product information, specifications, and pricing is accurate at the time of publication. However, <strong>we cannot guarantee the accuracy, completeness, or timeliness of any information</strong> on this website.</p>
+        <p>Apple frequently updates product specifications, pricing, and availability. Information on this website may become outdated without notice. We are not obligated to update content in real time. Always cross-reference with Apple's official sources before purchasing.</p>
+      </section>
+
+      <section class="t-section" id="s4">
+        <h2>4. AI-Generated Content</h2>
+        <p>This website uses artificial intelligence technology to generate product recommendations and advisory content. AI responses are produced algorithmically and <strong>may contain errors, outdated information, or advice unsuitable for your specific situation.</strong></p>
+        <p>AI recommendations are provided "as is" with no warranties. The AI does not have real-time access to Apple's inventory, current promotions, or live pricing. Treat AI responses as a starting point for research — not as definitive purchasing advice.</p>
+        <p>User queries sent through the chat feature are processed by a third-party AI service. Please do not share personal or sensitive information through the chat interface.</p>
+      </section>
+
+      <section class="t-section" id="s5">
+        <h2>5. Images &amp; Trademarks</h2>
+        <p>Product images displayed on this website are used for illustrative and reference purposes only. <strong>All product images remain the exclusive intellectual property of Apple Inc.</strong> Their use on this site is for informational and non-commercial advisory purposes.</p>
+        <p>All Apple product names, logos, images, and trade dress are trademarks or registered trademarks of Apple Inc. in the United States and other countries. Their use on this website does not imply any affiliation with or endorsement by Apple Inc.</p>
+      </section>
+
+      <section class="t-section" id="s6">
+        <h2>6. No Affiliation with Apple Inc.</h2>
+        <p>Soamya Recommends is <strong>entirely independent</strong> from Apple Inc. We have no business relationship, partnership, sponsorship, or official connection with Apple Inc.</p>
+        <p>This website does not receive compensation from Apple Inc. for recommendations. We do not participate in Apple affiliate programmes. Recommendations are based solely on publicly available information and personal analysis.</p>
+      </section>
+
+      <section class="t-section" id="s7">
+        <h2>7. Pricing Disclaimer</h2>
+        <p>All prices are approximate and sourced from Apple's publicly available pricing at the time of content creation. <strong>Prices may have changed since publication</strong> and may vary by region, reseller, configuration, and applicable taxes. Always verify current pricing directly with Apple.</p>
+      </section>
+
+      <section class="t-section" id="s8">
+        <h2>8. Discount &amp; Education Pricing Information</h2>
+        <p>Discount information including Education Store, Corporate pricing, Trade-in values, and promotional offers is provided for general awareness only. <strong>Discount availability and eligibility are determined solely by Apple Inc.</strong> and are subject to change at any time without notice. Verify eligibility directly at apple.com/education or apple.com/business.</p>
+      </section>
+
+      <section class="t-section" id="s9">
+        <h2>9. External Links</h2>
+        <p>This website contains links to Apple's official website and potentially other third-party sites. We have no control over external website content and <strong>accept no responsibility for any loss or damage arising from your use of them.</strong> Inclusion of any link does not imply endorsement.</p>
+      </section>
+
+      <section class="t-section" id="s10">
+        <h2>10. Privacy</h2>
+        <p>Soamya Recommends does not collect, store, or sell personal data. We do not use tracking cookies beyond what is necessary for basic website functionality. The AI chat feature sends your typed messages to a third-party AI API. Do not enter personal information (name, address, payment details) into the chat.</p>
+      </section>
+
+      <section class="t-section" id="s11">
+        <h2>11. Changes to These Terms</h2>
+        <p>We reserve the right to update these Terms at any time without prior notice. Changes are effective immediately upon posting. Your continued use of this website constitutes acceptance of the updated terms.</p>
+      </section>
+
+      <section class="t-section" id="s12">
+        <h2>12. Contact</h2>
+        <p>This website is a personal project. For all Apple product support, purchases, and official information, please contact Apple directly at <a href="https://www.apple.com/contact/" target="_blank" rel="noopener">apple.com/contact</a> or visit your nearest Apple Store.</p>
+      </section>
+
+      <div class="t-summary">
+        <span style="font-size:1.4rem;flex-shrink:0">✅</span>
+        <div><strong>Plain English summary:</strong> Soamya Recommends is an independent site — not Apple. We work hard to give honest, accurate advice, but we can't guarantee every detail and we're not responsible for your purchasing decisions. Always double-check specs and prices on apple.com before you buy.</div>
+      </div>
+
+      <div class="t-actions">
+        <a href="index.html" class="btn-ghost">← Back to Home</a>
+        <a href="recommender.html" class="btn-primary">Find My Apple ↗</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- CHAT BUBBLE -->
+<div id="chatBubble">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l4.93-1.38A9.96 9.96 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="currentColor"/><path d="M8 11.5h.01M12 11.5h.01M16 11.5h.01" stroke="#080808" stroke-width="2.5" stroke-linecap="round"/></svg>
+  <span>Ask AI</span>
+  <div class="bubble-online"></div>
+</div>
+<div id="chatPanel">
+  <div class="cp-header">
+    <div class="cp-info"><div class="cp-avatar">AI</div><div><span class="cp-name">Soamya's AI Advisor</span><span class="cp-status"><i class="online-dot"></i>Online</span></div></div>
+    <button id="chatClose">✕</button>
+  </div>
+  <div class="cp-messages" id="cpMessages">
+    <div class="cp-msg ai"><div class="cp-bubble">Hi! 👋 Any Apple product questions? I'm here to help.</div><span class="cp-time">Now</span></div>
+  </div>
+  <div class="cp-chips" id="cpChips">
+    <button onclick="chipSend(this)">Best Mac for students?</button>
+    <button onclick="chipSend(this)">iPhone under ₹80K?</button>
+  </div>
+  <div class="cp-input-row">
+    <input type="text" id="cpInput" placeholder="Ask about any Apple product…"/>
+    <button id="cpSend"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 9h14M11 4l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+  <p class="cp-note">Powered by AI · Not affiliated with Apple</p>
+</div>
+
+<footer style="margin-top:3rem">
+  <div class="container footer-inner">
+    <div class="footer-top">
+      <span class="footer-logo">Soamya Recommends</span>
+      <div class="footer-links"><a href="index.html">Home</a><a href="recommender.html">Recommender</a><a href="terms.html">Terms</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Soamya Recommends. Not affiliated with Apple Inc. All Apple product names, trademarks, and images are property of Apple Inc., registered in the U.S. and other countries.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/chat.js"></script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Find My Apple — Soamya Recommends</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/chat.css"/>
+  <link rel="stylesheet" href="css/recommender.css"/>
+</head>
+<body class="is-loading">
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-inner">
+    <p class="loader-label">[ Loading Recommender ]</p>
+    <div class="loader-bar-track"><div class="loader-bar-fill" id="loaderBar"></div></div>
+    <p class="loader-pct" id="loaderPct">0</p>
+  </div>
+</div>
+
+<div id="cursorDot"></div>
+<div id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Soamya Recommends</a>
+  <div class="nav-center">
+    <a href="index.html#products">Products</a>
+    <a href="recommender.html" style="color:var(--txt-0)">Recommender</a>
+    <a href="terms.html">Terms</a>
+  </div>
+  <div class="nav-right">
+    <a href="index.html" class="nav-cta">← Home</a>
+  </div>
+  <button id="menuBtn" class="menu-btn" aria-label="Menu"><span></span><span></span></button>
+</nav>
+<div id="mobileNav" class="mobile-nav">
+  <div class="mobile-nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#products">Products</a>
+    <a href="terms.html">Terms</a>
+  </div>
+</div>
+
+<!-- PAGE HEADER -->
+<header class="rec-header">
+  <div class="container">
+    <p class="section-label">[ AI Product Recommender ]</p>
+    <h1 class="rec-title">Find Your<br/>Perfect Apple.</h1>
+    <p class="rec-sub">Use the filters — or just ask the AI in plain English.</p>
+  </div>
+  <div class="rec-header-img">
+    <img src="images/02_mac_lineup_blue.png" alt="Apple lineup" loading="eager"/>
+  </div>
+</header>
+
+<!-- MAIN LAYOUT -->
+<main class="rec-main">
+  <div class="container rec-layout">
+
+    <!-- FILTERS -->
+    <aside id="filtersPanel" class="filters">
+      <div class="filters-top">
+        <h2>Your Preferences</h2>
+        <button id="resetBtn">Reset</button>
+      </div>
+
+      <div class="f-group">
+        <p class="f-label">Category</p>
+        <div class="f-pills" id="fCat">
+          <button class="fpill active" data-v="all">All</button>
+          <button class="fpill" data-v="iphone">iPhone</button>
+          <button class="fpill" data-v="macbook">MacBook</button>
+          <button class="fpill" data-v="ipad">iPad</button>
+          <button class="fpill" data-v="watch">Watch</button>
+          <button class="fpill" data-v="airpods">AirPods</button>
+          <button class="fpill" data-v="mac-desktop">Desktop Mac</button>
+          <button class="fpill" data-v="appletv">Apple TV</button>
+          <button class="fpill" data-v="homepod">HomePod</button>
+          <button class="fpill" data-v="visionpro">Vision Pro</button>
+        </div>
+      </div>
+
+      <div class="f-group">
+        <p class="f-label">Budget</p>
+        <div class="f-pills" id="fBudget">
+          <button class="fpill active" data-v="any">Any</button>
+          <button class="fpill" data-v="under30k">Under ₹30K</button>
+          <button class="fpill" data-v="30-60k">₹30K–60K</button>
+          <button class="fpill" data-v="60-100k">₹60K–1L</button>
+          <button class="fpill" data-v="100-150k">₹1L–1.5L</button>
+          <button class="fpill" data-v="above150k">₹1.5L+</button>
+        </div>
+      </div>
+
+      <div class="f-group">
+        <p class="f-label">Who are you? <span class="f-multi">(pick multiple)</span></p>
+        <div class="f-pills multi" id="fUser">
+          <button class="fpill" data-v="student">Student</button>
+          <button class="fpill" data-v="teacher">Teacher</button>
+          <button class="fpill" data-v="developer">Developer</button>
+          <button class="fpill" data-v="creative">Creative</button>
+          <button class="fpill" data-v="gamer">Gamer</button>
+          <button class="fpill" data-v="remote">Remote Worker</button>
+          <button class="fpill" data-v="business">Business</button>
+          <button class="fpill" data-v="casual">Casual User</button>
+          <button class="fpill" data-v="athlete">Athlete</button>
+          <button class="fpill" data-v="photographer">Photographer</button>
+          <button class="fpill" data-v="musician">Musician</button>
+          <button class="fpill" data-v="filmmaker">Filmmaker</button>
+        </div>
+      </div>
+
+      <div class="f-group">
+        <p class="f-label">Primary use <span class="f-multi">(pick multiple)</span></p>
+        <div class="f-pills multi" id="fUse">
+          <button class="fpill" data-v="browsing">Web & Social</button>
+          <button class="fpill" data-v="coding">Coding</button>
+          <button class="fpill" data-v="videoediting">Video Editing</button>
+          <button class="fpill" data-v="photoediting">Photo Editing</button>
+          <button class="fpill" data-v="music">Music Production</button>
+          <button class="fpill" data-v="gaming">Gaming</button>
+          <button class="fpill" data-v="schoolwork">Studies</button>
+          <button class="fpill" data-v="office">Office & Docs</button>
+          <button class="fpill" data-v="streaming">Streaming</button>
+          <button class="fpill" data-v="fitness">Fitness</button>
+          <button class="fpill" data-v="calls">Video Calls</button>
+        </div>
+      </div>
+
+      <div class="f-group">
+        <p class="f-label">What matters most? <span class="f-multi">(pick multiple)</span></p>
+        <div class="f-pills multi" id="fPriority">
+          <button class="fpill" data-v="battery">Battery Life</button>
+          <button class="fpill" data-v="portability">Portability</button>
+          <button class="fpill" data-v="performance">Raw Performance</button>
+          <button class="fpill" data-v="display">Display Quality</button>
+          <button class="fpill" data-v="camera">Camera</button>
+          <button class="fpill" data-v="storage">Storage</button>
+          <button class="fpill" data-v="ram">RAM</button>
+          <button class="fpill" data-v="build">Build Quality</button>
+          <button class="fpill" data-v="value">Best Value</button>
+          <button class="fpill" data-v="discount">Discounts</button>
+        </div>
+      </div>
+
+      <div class="f-group">
+        <p class="f-label">Discount eligibility</p>
+        <div class="f-pills" id="fDiscount">
+          <button class="fpill active" data-v="none">None</button>
+          <button class="fpill" data-v="student">Student / Teacher</button>
+          <button class="fpill" data-v="corporate">Corporate</button>
+          <button class="fpill" data-v="refurbished">Open to Refurbished</button>
+        </div>
+      </div>
+
+      <button class="btn-primary rec-submit" id="getRecBtn">
+        Get My Recommendation
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </aside>
+
+    <!-- RESULTS -->
+    <div class="results" id="resultsPanel">
+
+      <!-- AI Ask -->
+      <div class="ai-ask">
+        <div class="ai-ask-head">
+          <div class="ai-badge">AI</div>
+          <div>
+            <strong>Ask in plain English</strong>
+            <span>"Best Mac under ₹1.5L for Final Cut Pro"</span>
+          </div>
+        </div>
+        <div class="ai-ask-row">
+          <input type="text" id="aiInput" placeholder="Describe exactly what you need…"/>
+          <button id="aiSend">↗</button>
+        </div>
+        <div class="ai-chips">
+          <span onclick="fillAsk(this)">Best Mac for video editing under ₹1.5L</span>
+          <span onclick="fillAsk(this)">iPhone under ₹60K with best camera</span>
+          <span onclick="fillAsk(this)">Lightest MacBook for college</span>
+          <span onclick="fillAsk(this)">Apple Watch for marathon training</span>
+          <span onclick="fillAsk(this)">AirPods for gym use</span>
+        </div>
+      </div>
+
+      <!-- Results Area -->
+      <div id="resultsArea">
+        <div class="results-empty">
+          <div class="re-icon">◎</div>
+          <h3>Set your filters, then tap<br/>"Get My Recommendation"</h3>
+          <p>Or type your need in the AI box above — both give you detailed, honest advice.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- AI CHAT BUBBLE -->
+<div id="chatBubble">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l4.93-1.38A9.96 9.96 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="currentColor"/><path d="M8 11.5h.01M12 11.5h.01M16 11.5h.01" stroke="#080808" stroke-width="2.5" stroke-linecap="round"/></svg>
+  <span>Ask AI</span>
+  <div class="bubble-online"></div>
+</div>
+<div id="chatPanel">
+  <div class="cp-header">
+    <div class="cp-info"><div class="cp-avatar">AI</div><div><span class="cp-name">Soamya's AI Advisor</span><span class="cp-status"><i class="online-dot"></i>Online</span></div></div>
+    <button id="chatClose">✕</button>
+  </div>
+  <div class="cp-messages" id="cpMessages">
+    <div class="cp-msg ai"><div class="cp-bubble">Hi! 👋 Ask me anything — I'll give you specific, honest Apple product advice based on your needs and budget.</div><span class="cp-time">Now</span></div>
+  </div>
+  <div class="cp-chips" id="cpChips">
+    <button onclick="chipSend(this)">MacBook Air vs Pro?</button>
+    <button onclick="chipSend(this)">Best value iPhone?</button>
+    <button onclick="chipSend(this)">Mac mini vs iMac?</button>
+  </div>
+  <div class="cp-input-row">
+    <input type="text" id="cpInput" placeholder="Ask anything…"/>
+    <button id="cpSend"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 9h14M11 4l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+  <p class="cp-note">Powered by AI · Not affiliated with Apple</p>
+</div>
+
+<!-- FOOTER -->
+<footer style="margin-top:5rem">
+  <div class="container footer-inner">
+    <div class="footer-top">
+      <span class="footer-logo">Soamya Recommends</span>
+      <div class="footer-links"><a href="index.html">Home</a><a href="terms.html">Terms</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Soamya Recommends. Not affiliated with Apple Inc. All product names and images are property of Apple Inc.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js?v=3"></script>
+<script src="js/chat.js?v=3"></script>
+<script src="js/recommender.js?v=3"></script>
+</body>
+</html>

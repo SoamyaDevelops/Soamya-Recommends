@@ -1,0 +1,440 @@
+/* ══ INDEX PAGE CSS v2 ══
+   Hero: 300vh pinned scroll with 3 product scenes
+   No marquee strip
+   ═══════════════════════════════════════════════ */
+
+/* ─── PIN WRAPPER ─── */
+/* This div is 300vh tall — GSAP pins #hero inside it for 3 screens */
+#heroPin {
+  height: 300vh;
+  position: relative;
+}
+
+/* ─── HERO (pinned inner) ─── */
+#hero {
+  position: relative;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch; /* Stretch to full height instead of center to prevent absolute children from collapsing */
+  gap: 0;
+  padding: 0 clamp(1.5rem, 5vw, 6rem);
+  overflow: hidden;
+  background: var(--bg-0);
+  will-change: transform;
+}
+
+/* Subtle full-bleed bg texture */
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 70% 50%, rgba(232,213,163,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255,255,255,0.02) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── LEFT COLUMN ─── */
+.hero-left {
+  position: relative;
+  z-index: 2;
+  padding-right: 4rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-eyebrow {
+  font-size: var(--label-size);
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--txt-2);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: absolute;
+  top: clamp(2rem, 6vh, 4rem);
+  left: 0;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  animation: eyePulse 2.5s ease-in-out infinite;
+}
+@keyframes eyePulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: .35; }
+}
+
+/* Scene wrappers */
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  width: calc(100% - 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+#scene0 { opacity: 1; pointer-events: auto; }
+
+/* Title — scene 0, large */
+.hero-title {
+  font-size: var(--disp-xl);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  margin-bottom: 1.8rem;
+}
+
+/* Title — scenes 1 & 2, slightly smaller */
+.hero-title-sm {
+  font-size: clamp(3rem, 7vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  margin-bottom: 1.8rem;
+}
+
+.title-line {
+  display: block;
+  overflow: hidden;
+  padding-top: 0.1em;
+  margin-top: -0.1em;
+}
+.tli {
+  display: block;
+  /* JS animates from translateY(110%) → 0 */
+}
+
+.hero-body {
+  font-size: var(--body-lg);
+  color: var(--txt-1);
+  line-height: 1.72;
+  max-width: 44ch;
+  margin-bottom: 2.4rem;
+  font-weight: 300;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Scene progress dots */
+.hero-dots {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  bottom: clamp(2rem, 6vh, 4rem);
+  left: 0;
+}
+.hdot {
+  width: 20px; height: 3px;
+  background: var(--txt-2);
+  border-radius: 2px;
+  transition: background .4s, width .4s var(--ease-out);
+  cursor: none;
+}
+.hdot.active {
+  background: var(--accent);
+  width: 36px;
+}
+
+/* ─── RIGHT COLUMN ─── */
+.hero-right {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Each image slot takes full area */
+.hero-img-slot {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+}
+#img0 { opacity: 1; pointer-events: auto; }
+
+.hero-img {
+  max-height: 65vh;
+  width: auto;
+  max-width: 90%;
+  object-fit: contain;
+  filter: drop-shadow(0 40px 80px rgba(0,0,0,0.75));
+  /* JS applies entrance animation */
+}
+
+/* MacBook is landscape — limit differently */
+.hero-img-mac {
+  max-height: 45vh;
+  max-width: 95%;
+}
+
+/* Watch — taller aspect ratio is fine */
+.hero-img-watch {
+  max-height: 60vh;
+}
+
+.hero-img-label {
+  font-size: var(--label-size);
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--txt-2);
+  font-weight: 500;
+  background: rgba(8,8,8,0.6);
+  backdrop-filter: blur(12px);
+  padding: 5px 14px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+}
+
+/* ─── SCROLL HINT ─── */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 2.2rem;
+  left: clamp(1.5rem, 5vw, 6rem);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 3;
+  opacity: 0;  /* fades in after load */
+}
+.scroll-line {
+  width: 40px; height: 1px;
+  background: var(--txt-2);
+  transform-origin: left;
+  animation: scrollPulse 2.2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%   { transform: scaleX(0); transform-origin: left; opacity: 0; }
+  45%  { transform: scaleX(1); opacity: 1; }
+  46%  { transform-origin: right; }
+  90%  { transform: scaleX(0); opacity: 0; }
+  100% { transform: scaleX(0); opacity: 0; }
+}
+.hero-scroll-hint span {
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--txt-2);
+}
+
+/* ── PRODUCTS GRID ── */
+#products { padding-block: clamp(5rem, 10vw, 10rem); }
+
+.section-header { margin-bottom: clamp(3rem, 5vw, 5rem); }
+.section-title {
+  font-size: var(--disp-lg);
+  font-weight: 900;
+  letter-spacing: -.05em;
+  line-height: .95;
+  color: var(--txt-0);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px;
+  background: var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+}
+
+.prod-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  min-height: 340px;
+  overflow: hidden;
+  transition: background .35s;
+  text-decoration: none;
+}
+.prod-card:hover { background: var(--bg-2); }
+
+.prod-wide { grid-column: span 2; flex-direction: row; min-height: 280px; }
+.prod-ecosystem { grid-column: span 3; min-height: 240px; flex-direction: row; }
+
+.prod-img-wrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 200px;
+}
+.prod-card.prod-wide .prod-img-wrap { width: 45%; min-height: unset; }
+.prod-card.prod-ecosystem .prod-img-wrap { width: 40%; }
+
+.prod-img-wrap img {
+  max-height: 160px;
+  width: auto;
+  object-fit: contain;
+  transition: transform .5s var(--ease-out);
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,.5));
+}
+.prod-card:hover .prod-img-wrap img { transform: scale(1.06) translateY(-5px); }
+
+.prod-img-duo { gap: 1.5rem; }
+.prod-img-duo img { max-height: 120px; }
+
+.prod-img-focus { min-height: 280px; }
+.prod-img-fill {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  min-height: unset;
+}
+.prod-img-fill img {
+  width: 100%;
+  height: 100%;
+  max-height: unset;
+  object-fit: cover;
+  filter: none;
+  opacity: 0.7;
+  transition: opacity .5s, transform .6s var(--ease-out);
+}
+.prod-card:hover .prod-img-fill img { opacity: 0.9; transform: scale(1.04); }
+
+.prod-tag-overlay {
+  position: absolute;
+  bottom: 1.5rem; left: 1.5rem;
+  z-index: 2;
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--txt-0);
+  background: rgba(8,8,8,.7);
+  backdrop-filter: blur(12px);
+  padding: 5px 12px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+}
+
+.prod-body {
+  flex: 1;
+  padding: 1.6rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.prod-card.prod-wide .prod-body { justify-content: center; }
+
+.prod-body-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 2;
+  padding: 2rem 3rem;
+  background: linear-gradient(to top, rgba(8,8,8,.92) 0%, rgba(8,8,8,.15) 100%);
+  justify-content: flex-end;
+}
+.prod-body-overlay h3 { font-size: 1.6rem; font-weight: 800; letter-spacing: -.03em; margin-bottom: .5rem; }
+.prod-body-overlay p { font-size: .85rem; color: var(--txt-1); margin-bottom: 1.2rem; }
+
+.prod-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .8rem;
+}
+.prod-cat {
+  font-size: var(--label-size);
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--txt-2);
+  font-weight: 600;
+}
+.prod-count { font-size: var(--label-size); color: var(--txt-2); }
+
+.prod-body h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  margin-bottom: .5rem;
+  color: var(--txt-0);
+}
+.prod-card.prod-wide .prod-body h3 { font-size: 1.5rem; }
+
+.prod-body p {
+  font-size: .82rem;
+  color: var(--txt-1);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.prod-from {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.prod-arrow {
+  position: absolute;
+  top: 1.2rem; right: 1.2rem;
+  width: 32px; height: 32px;
+  background: var(--bg-0);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .9rem;
+  color: var(--txt-1);
+  opacity: 0;
+  transform: scale(.85) translateX(-4px);
+  transition: opacity .3s, transform .3s var(--ease-spring);
+}
+.prod-card:hover .prod-arrow {
+  opacity: 1;
+  transform: scale(1) translateX(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) {
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .prod-wide, .prod-ecosystem { grid-column: span 2; }
+}
+
+@media (max-width: 768px) {
+  /* On mobile, hero is NOT pinned — just stacks normally */
+  #heroPin { height: auto; }
+  #hero {
+    grid-template-columns: 1fr;
+    height: auto;
+    padding-top: 120px;
+    padding-bottom: 5rem;
+    text-align: center;
+    min-height: 100svh;
+  }
+  .hero-eyebrow { justify-content: center; }
+  .hero-body { margin-inline: auto; }
+  .hero-actions { justify-content: center; }
+  .hero-dots { justify-content: center; }
+  .hero-right { display: none; }
+  .hero-left { padding-right: 0; }
+  .products-grid { grid-template-columns: 1fr; gap: 1px; }
+  .prod-wide, .prod-ecosystem { grid-column: span 1; flex-direction: column; }
+  .prod-card.prod-wide .prod-img-wrap { width: 100%; }
+  .prod-card.prod-ecosystem .prod-img-wrap { width: 100%; }
+}

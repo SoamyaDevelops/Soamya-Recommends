@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Soamya Recommends — Find Your Perfect Apple</title>
+  <meta name="description" content="AI-powered Apple product advisor. Find the perfect iPhone, Mac, iPad, Watch and more."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,300&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/index.css"/>
+  <link rel="stylesheet" href="css/chat.css"/>
+</head>
+<body class="is-loading">
+
+<!-- ══ LOADER ══ -->
+<div id="loader">
+  <div class="loader-inner">
+    <p class="loader-label">[ SOAMYA RECOMMENDS ]</p>
+    <div class="loader-bar-track"><div class="loader-bar-fill" id="loaderBar"></div></div>
+    <p class="loader-pct" id="loaderPct">0</p>
+  </div>
+</div>
+
+<!-- ══ CURSOR ══ -->
+<div id="cursorDot"></div>
+<div id="cursorRing"></div>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Soamya Recommends</a>
+  <div class="nav-center">
+    <a href="#products">Products</a>
+    <a href="recommender.html">Recommender</a>
+    <a href="#about">About</a>
+  </div>
+  <div class="nav-right">
+    <a href="terms.html" class="nav-terms">Terms</a>
+    <a href="recommender.html" class="nav-cta">Find Mine <span>↗</span></a>
+  </div>
+  <button id="menuBtn" class="menu-btn" aria-label="Menu">
+    <span></span><span></span>
+  </button>
+</nav>
+
+<div id="mobileNav" class="mobile-nav">
+  <div class="mobile-nav-links">
+    <a href="#products">Products</a>
+    <a href="recommender.html">Recommender</a>
+    <a href="#about">About</a>
+    <a href="terms.html">Terms</a>
+  </div>
+  <a href="recommender.html" class="mobile-cta">Find My Apple ↗</a>
+</div>
+
+<!-- ══ HERO — SCROLL-PINNED 3-SCENE ══ -->
+<div id="heroPin">
+  <section id="hero">
+
+    <!-- Persistent left column — text morphs per scene -->
+    <div class="hero-left">
+      <p class="hero-eyebrow">[ AI-Powered Apple Advisor ]</p>
+
+      <!-- Scene text blocks — only one visible at a time -->
+      <div class="hero-scene" id="scene0">
+        <h1 class="hero-title">
+          <span class="title-line"><span class="tli">The Honest</span></span>
+          <span class="title-line"><span class="tli">Apple Guide.</span></span>
+        </h1>
+        <p class="hero-body">Tell us your needs. We match you to the exact product — right chip, right storage, right price. No fluff.</p>
+        <div class="hero-actions">
+          <a href="recommender.html" class="btn-primary">Find My Apple</a>
+          <a href="#products" class="btn-ghost">Browse Products</a>
+        </div>
+      </div>
+
+      <div class="hero-scene" id="scene1">
+        <h2 class="hero-title-sm">
+          <span class="title-line"><span class="tli">Work without</span></span>
+          <span class="title-line"><span class="tli">limits.</span></span>
+        </h2>
+        <p class="hero-body">MacBook Air M3 — 18-hour battery, 1.24 kg, completely silent. MacBook Pro M4 — renders 8K without a fan turning on.</p>
+        <a href="recommender.html?cat=macbook" class="btn-primary">Explore MacBooks ↗</a>
+      </div>
+
+      <div class="hero-scene" id="scene2">
+        <h2 class="hero-title-sm">
+          <span class="title-line"><span class="tli">Health.</span></span>
+          <span class="title-line"><span class="tli">All day.</span></span>
+        </h2>
+        <p class="hero-body">Apple Watch Series 10 — sleep apnea detection, 18-hour battery, thinnest ever. Ultra 2 — 60 hours, titanium, built for anything.</p>
+        <a href="recommender.html?cat=watch" class="btn-primary">Explore Watches ↗</a>
+      </div>
+
+      <!-- Scene progress dots -->
+      <div class="hero-dots">
+        <span class="hdot active" data-s="0"></span>
+        <span class="hdot" data-s="1"></span>
+        <span class="hdot" data-s="2"></span>
+      </div>
+    </div>
+
+    <!-- Right side — images swap per scene -->
+    <div class="hero-right">
+      <!-- Scene 0: iPhone -->
+      <div class="hero-img-slot" id="img0">
+        <img src="images/06_iphone_16_pro_orange.png" alt="iPhone 16 Pro" class="hero-img"/>
+        <div class="hero-img-label">iPhone 16 Pro · From ₹1,19,900</div>
+      </div>
+      <!-- Scene 1: MacBook -->
+      <div class="hero-img-slot" id="img1">
+        <img src="images/10_macbook_pro_dark.png" alt="MacBook Pro" class="hero-img hero-img-mac"/>
+        <div class="hero-img-label">MacBook Pro M4 · From ₹1,68,900</div>
+      </div>
+      <!-- Scene 2: Watch -->
+      <div class="hero-img-slot" id="img2">
+        <img src="images/12_apple_watch_gold_sleep.png" alt="Apple Watch" class="hero-img hero-img-watch"/>
+        <div class="hero-img-label">Apple Watch Series 10 · From ₹46,900</div>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+
+  </section>
+</div>
+<!-- End pin wrapper -->
+
+<!-- ══ PRODUCTS GRID ══ -->
+<section id="products">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">[ Product Lines ]</p>
+      <h2 class="section-title">Every Apple<br/>Product. Explained.</h2>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- iPhone — WIDE -->
+      <a href="recommender.html?cat=iphone" class="prod-card prod-wide">
+        <div class="prod-img-wrap">
+          <img src="images/13_iphone_16_colors_fan.png" alt="iPhone 16 lineup" loading="lazy"/>
+          <img src="images/01_iphone_14_pro_purple.png" alt="iPhone Pro" loading="lazy" class="prod-img-secondary"/>
+        </div>
+        <div class="prod-body">
+          <div class="prod-top">
+            <span class="prod-cat">iPhone</span>
+            <span class="prod-count">4 models</span>
+          </div>
+          <h3>iPhone 16 Series</h3>
+          <p>Pro Max to base. Camera, chip, battery guide — which one is actually worth it for you.</p>
+          <span class="prod-from">From ₹79,900</span>
+        </div>
+        <div class="prod-arrow">↗</div>
+      </a>
+
+      <!-- MacBook -->
+      <a href="recommender.html?cat=macbook" class="prod-card">
+        <div class="prod-img-wrap">
+          <img src="images/10_macbook_pro_dark.png" alt="MacBook Pro" loading="lazy"/>
+        </div>
+        <div class="prod-body">
+          <div class="prod-top">
+            <span class="prod-cat">MacBook</span>
+            <span class="prod-count">4 models</span>
+          </div>
+          <h3>MacBook Air &amp; Pro</h3>
+          <p>Air vs Pro, M3 vs M4. Which RAM and SSD you actually need.</p>
+          <span class="prod-from">From ₹1,14,900</span>
+        </div>
+        <div class="prod-arrow">↗</div>
+      </a>
+
+      <!-- MacBook Air fill -->
+      <a href="recommender.html?cat=macbook" class="prod-card prod-img-focus">
+        <div class="prod-img-wrap prod-img-fill">
+          <img src="images/11_macbook_air_sky_blue.png" alt="MacBook Air Sky Blue" loading="lazy"/>
+        </div>
+        <div class="prod-tag-overlay">MacBook Air M3 · Sky Blue</div>
+      </a>
+
+      <!-- iPad -->
+      <a href="recommender.html?cat=ipad" class="prod-card">
+        <div class="prod-img-wrap">
+          <img src="images/03_ipad_pro_air.png" alt="iPad Pro and Air" loading="lazy"/>
+        </div>
+        <div class="prod-body">
+          <div class="prod-top">
+            <span class="prod-cat">iPad</span>
+            <span class="prod-count">4 models</span>
+          </div>
+          <h3>iPad Line</h3>
+          <p>mini, Air, Pro — which display size, which chip, which accessories are worth it.</p>
+          <span class="prod-from">From ₹49,900</span>
+        </div>
+        <div class="prod-arrow">↗</div>
+      </a>
+
+      <!-- Watch -->
+      <a href="recommender.html?cat=watch" class="prod-card">
+        <div class="prod-img-wrap">
+          <img src="images/12_apple_watch_gold_sleep.png" alt="Apple Watch" loading="lazy"/>
+        </div>
+        <div class="prod-body">
+          <div class="prod-top">
+            <span class="prod-cat">Apple Watch</span>
+            <span class="prod-count">3 models</span>
+          </div>
+          <h3>Watch Series</h3>
+          <p>Ultra 2, Series 10, SE — fitness, sleep, health. Which matters for your life.</p>
+          <span class="prod-from">From ₹29,900</span>
+        </div>
+        <div class="prod-arrow">↗</div>
+      </a>
+
+      <!-- AirPods wide -->
+      <a href="recommender.html?cat=airpods" class="prod-card prod-wide">
+        <div class="prod-img-wrap prod-img-duo">
+          <img src="images/04_airpods_pro.png" alt="AirPods Pro" loading="lazy"/>
+          <img src="images/19_airpods_max_midnight.png" alt="AirPods Max" loading="lazy"/>
+        </div>
+        <div class="prod-body">
+          <div class="prod-top">
+            <span class="prod-cat">AirPods</span>
+            <span class="prod-count">3 models</span>
+          </div>
+          <h3>AirPods 4 · Pro 2 · Max</h3>
+          <p>ANC, spatial audio, battery — all compared with zero marketing speak.</p>
+          <span class="prod-from">From ₹14,900</span>
+        </div>
+        <div class="prod-arrow">↗</div>
+      </a>
+
+      <!-- Desktop Mac -->
+      <a href="recommender.html?cat=mac-desktop" class="prod-card">
+        <div class="prod-img-wrap">
+          <img src="images/20_mac_mini_front.png" alt="Mac mini" loading="lazy"/>
+        </div>
+        <div class="prod-body">
+          <div class="prod-top">
+            <span class="prod-cat">Desktop Mac</span>
+            <span class="prod-count">4 models</span>
+          </div>
+          <h3>iMac · mini · Studio · Pro</h3>
+          <p>Desktop power at every price. Which one fits your desk and workflow.</p>
+          <span class="prod-from">From ₹59,900</span>
+        </div>
+        <div class="prod-arrow">↗</div>
+      </a>
+
+      <!-- Ecosystem CTA -->
+      <a href="recommender.html" class="prod-card prod-wide prod-ecosystem">
+        <div class="prod-img-wrap prod-img-fill">
+          <img src="images/18_apple_ecosystem.png" alt="Apple Ecosystem" loading="lazy"/>
+        </div>
+        <div class="prod-body prod-body-overlay">
+          <h3>Not sure where to start?</h3>
+          <p>Let our AI find your perfect Apple in 60 seconds.</p>
+          <span class="btn-primary btn-sm">Start Recommender ↗</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section id="how">
+  <div class="container">
+    <p class="section-label">[ How It Works ]</p>
+    <div class="how-grid">
+      <div class="how-left">
+        <h2>Three steps.<br/>Zero confusion.</h2>
+        <p>More detail than Apple's own product pages — in language that doesn't require a CS degree.</p>
+        <a href="recommender.html" class="btn-primary" style="margin-top:2.5rem">Try It Now ↗</a>
+      </div>
+      <div class="how-steps">
+        <div class="how-step">
+          <span class="step-n">01</span>
+          <div class="step-body">
+            <h3>Tell us about you</h3>
+            <p>Budget, job, use case, priorities. Student? Developer? Filmmaker? We ask the right questions.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="step-n">02</span>
+          <div class="step-body">
+            <h3>AI matches your profile</h3>
+            <p>Our engine cross-references your needs against every Apple product — chips, RAM, cameras, discounts.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="step-n">03</span>
+          <div class="step-body">
+            <h3>Get your recommendation</h3>
+            <p>Exact model, exact config, real price in ₹ and $, applicable discounts — ready to buy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURED VISUAL ══ -->
+<section id="feature-visual">
+  <div class="fv-inner">
+    <img src="images/05_macbook_air_yellow_hand.png" alt="MacBook Air" class="fv-img" loading="lazy"/>
+    <div class="fv-content">
+      <p class="section-label">[ For Students ]</p>
+      <h2>MacBook Air M3<br/>The college laptop<br/>that lasts all day.</h2>
+      <p>18 hours of battery. 1.24 kg. Silent fanless design. M3 chip handles Xcode, Final Cut, Python, and 30 browser tabs without breaking a sweat.</p>
+      <div class="fv-price">
+        <span class="fv-price-num">₹1,14,900</span>
+        <span class="fv-price-usd">$1,099 USD</span>
+      </div>
+      <a href="recommender.html?cat=macbook" class="btn-primary">See MacBook Guide ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-left">
+        <p class="section-label">[ About ]</p>
+        <h2>Built by someone who actually uses these products.</h2>
+        <p>No affiliate links. No sponsored rankings. No brand deals. Just an honest guide built to help you spend your money wisely in the Apple ecosystem.</p>
+        <p>Every spec, every discount table, every AI recommendation is grounded in Apple's official sources and real-world use.</p>
+        <a href="terms.html" class="btn-outline">Read Terms &amp; Conditions →</a>
+      </div>
+      <div class="about-right">
+        <div class="disclaimer-card">
+          <span class="dc-icon">⚠️</span>
+          <div>
+            <h4>Independent Site</h4>
+            <p>Not affiliated with, endorsed by, or sponsored by Apple Inc. All product names and images belong to Apple Inc.</p>
+          </div>
+        </div>
+        <div class="disclaimer-card">
+          <span class="dc-icon">🤖</span>
+          <div>
+            <h4>AI-Assisted Advice</h4>
+            <p>Recommendations are AI-generated for guidance only. Always verify current specs and pricing at apple.com before purchasing.</p>
+          </div>
+        </div>
+        <div class="disclaimer-card">
+          <span class="dc-icon">💸</span>
+          <div>
+            <h4>No Ads, Ever</h4>
+            <p>This site runs no advertising, no affiliate links, and no promoted placements. Rankings are purely based on fit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section id="cta">
+  <div class="cta-inner">
+    <img src="images/09_airpods_max_colors.png" alt="AirPods Max" class="cta-img" loading="lazy"/>
+    <div class="cta-content">
+      <h2>Ready to find<br/>your Apple?</h2>
+      <a href="recommender.html" class="btn-primary btn-lg">Start the Recommender ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-top">
+      <span class="footer-logo">Soamya Recommends</span>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="recommender.html">Recommender</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Soamya Recommends. Independent advisory site. Not affiliated with Apple Inc.</p>
+      <p>All Apple product names, trademarks, and images are property of Apple Inc., registered in the U.S. and other countries.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ CHAT ══ -->
+<div id="chatBubble">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l4.93-1.38A9.96 9.96 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="currentColor"/><path d="M8 11.5h.01M12 11.5h.01M16 11.5h.01" stroke="#080808" stroke-width="2.5" stroke-linecap="round"/></svg>
+  <span>Ask AI</span>
+  <div class="bubble-online"></div>
+</div>
+<div id="chatPanel">
+  <div class="cp-header">
+    <div class="cp-info">
+      <div class="cp-avatar">AI</div>
+      <div class="cp-meta">
+        <span class="cp-name">Soamya's AI Advisor</span>
+        <span class="cp-status"><i class="online-dot"></i>Online</span>
+      </div>
+    </div>
+    <button id="chatClose">✕</button>
+  </div>
+  <div class="cp-messages" id="cpMessages">
+    <div class="cp-msg ai">
+      <div class="cp-bubble">Hi! 👋 Ask me anything — "Which iPhone under ₹80K?" or "Best Mac for video editing" — I'll give you specific, honest advice.</div>
+      <span class="cp-time">Now</span>
+    </div>
+  </div>
+  <div class="cp-chips" id="cpChips">
+    <button onclick="chipSend(this)">Best Mac for students?</button>
+    <button onclick="chipSend(this)">iPhone under ₹60K?</button>
+    <button onclick="chipSend(this)">AirPods vs AirPods Pro?</button>
+  </div>
+  <div class="cp-input-row">
+    <input type="text" id="cpInput" placeholder="Ask about any Apple product…"/>
+    <button id="cpSend">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 9h14M11 4l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+  <p class="cp-note">Powered by AI · Not affiliated with Apple</p>
+</div>
+
+<script src="js/main.js?v=3"></script>
+<script src="js/chat.js?v=3"></script>
+</body>
+</html>
